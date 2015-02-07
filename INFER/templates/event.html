@@ -3,4 +3,33 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fullcalendar.js') }}">
 <script src="http://momentjs.com/downloads/moment.min.js"></script>
 <script src="{{ url_for('static', filename='fullcalendar.css') }}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#calendar').fullCalendar({
+			header: {
+				left:'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			defaultView: 'agendaWeek',
+			defaultDate: {{today}},
+			editable:true,
+			events: [
+			{% for event in events %}
+			{
+				title: {{event.title}},
+				start: {{event.start}},
+				end: {{event.end}}
+			} {% if not loop.last %},{% endif %}
+			{% endfor %}
+			]
+		});
+	});
+</script>
+{% for comment in comments %}
+<div class="comment">
+	<p>{{comment.user.name}} said:</p>
+	<p>{{comment.text}}</p>
+</div>
+{% endfor %}]
 {% endblock %}

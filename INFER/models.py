@@ -23,7 +23,7 @@ class Event(BaseDocument):
     structure = {
         'creator': User,
         'created': datetime,
-        'calander': Calander
+        'calendar': Calendar
     }
     default_values = {
         'created': datetime.now()
