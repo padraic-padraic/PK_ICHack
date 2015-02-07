@@ -14,21 +14,22 @@ class User(BaseDocument):
     }
     user_dot_notation = True
 
+class Calendar(BaseDocument):
+    structure = {
+        'blocks':[(basestring, datetime, datetime)]
+    }
+
 class Event(BaseDocument):
     structure = {
         'creator': User,
-        'created': datetime
+        'created': datetime,
+        'calander': Calander
     }
     default_values = {
         'created': datetime.now()
     }
     use_autorefs = True
     use_dot_notation = True
-
-class Calander(BaseDocument):
-    structure = {
-        'blocks':[(basestring, datetime, datetime)]
-    }
 
 class Comment(BaseDocument):
     structure = {
