@@ -2,14 +2,29 @@ from INFER.models import Event, User, Comment
 from flask import Flask, render_template, request, redirect, url_for
 from mongokit import Connection
 
+import os
 
 app = Flask(__name__)
+app.debug = True
 app.config['MONGODB_HOST'] = 'localhost'
 app.config['MONGODB_PORT'] = 27017
 
 con = Connection(app.config['MONGODB_HOST'], app.config['MONGODB_PORT'])
 con.register([Event, User, Comment])
 db = con.test.infer
+
+@app.context_processor
+def override_url_for():
+    return dict(url_for=dated_url_for)
+
+def dated_url_for(endpoint, **values):
+    if endpoint == 'static':
+        filename = values.get('filename', None)
+        if filename:
+            file_path = os.path.join(app.root_path,
+                                     endpoint, filename)
+            values['q'] = int(os.stat(file_path).st_mtime)
+    return url_for(endpoint, **values)
 
 @app.route('/')
 def create():
@@ -39,5 +54,5 @@ def get_event(event_id):
     comments = list(db.Comments.find({'event_id':ev._id}))
     return render_template('event.html', comments = comments, event = ev)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()
