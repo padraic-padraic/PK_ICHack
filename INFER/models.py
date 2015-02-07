@@ -1,24 +1,36 @@
 from bson import objectid
-from mongokit import Connection, Document
-from uuid import UUID
+from datetime import datetime
+from mongokit import Document
 
-class Event(Document):
-    structure = {
-        }
+class BaseDocument(Document):
+    __database__ = 'test'
+    __collection__ = 'infer'
 
-class User(Document):
+class User(BaseDocument):
     structure = {
+        'title': basestring
         'email': basestring,
         'name': basestring,
     }
+    user_dot_notation = True
 
-class Comment(Document):
+class Event(BaseDocument):
+    structure = {
+        'creator': User,
+        'created': datetime
+    }
+    default_values = {
+        'created': datetime.now()
+    }
+    use_autorefs = True
+    use_dot_notation = True
+
+class Comment(BaseDocument):
     structure = {
         'event_id': objectid.ObjectId,
-        'user_id': objectid.ObjectId,
+        'user': User,
         'text': basestring
     }
+    use_dot_notation = True
+    use_autorefs = True
 
-connection = Connection()
-
-connection.register([Event, Comment, User])
