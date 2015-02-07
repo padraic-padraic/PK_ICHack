@@ -1,6 +1,6 @@
 from bson import objectid
 from datetime import datetime
-from flask.ext.mongokit import Document
+from flask.ext.mongokit import CustomType, Document
 
 class BaseDocument(Document):
     # __database__ = 'test'
@@ -24,6 +24,11 @@ class Event(BaseDocument):
     }
     use_autorefs = True
     use_dot_notation = True
+
+class Calander(BaseDocument):
+    structure = {
+        'blocks':[(basestring, datetime, datetime)]
+    }
 
 class Comment(BaseDocument):
     structure = {

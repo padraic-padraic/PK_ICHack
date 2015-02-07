@@ -1,18 +1,21 @@
 from models import Event, User, Comment
 from flask import Flask, render_template, request, redirect, url_for
 from flask.ext.mongokit import MongoKit, BSONObjectIdConverter
+from flask.ext.socketio import SocketIo, emit
 import os
 
 app = Flask(__name__)
 app.debug = True
+
+#Setup Mongo
 app.config['MONGODB_HOST'] = 'localhost'
 app.config['MONGODB_PORT'] = 27017
 app.config['MONGODB_DATABASE'] = 'test'
-
 db = MongoKit(app)
 db.register([Event, User, Comment])
-
 app.url_map.converters['objectid'] = BSONObjectIdConverter
+
+#Setup SocketIO
 
 
 @app.context_processor
