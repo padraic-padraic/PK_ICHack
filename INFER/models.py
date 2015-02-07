@@ -8,7 +8,7 @@ class BaseDocument(Document):
 
 class User(BaseDocument):
     structure = {
-        'title': basestring
+        'title': basestring,
         'email': basestring,
         'name': basestring,
     }
