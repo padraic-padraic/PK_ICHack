@@ -1,9 +1,9 @@
 from bson import objectid
 from datetime import datetime
-from mongokit import Document
+from flask.ext.mongokit import Document
 
 class BaseDocument(Document):
-    __database__ = 'test'
+    # __database__ = 'test'
     __collection__ = 'infer'
 
 class User(BaseDocument):

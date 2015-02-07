@@ -1,4 +1,4 @@
 ##INFER
 flask>=0.10
-mongokit==0.9.1.1
+flask-mongokit==0.6
 flask-socketio==0.5.0

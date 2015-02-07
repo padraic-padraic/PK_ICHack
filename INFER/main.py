@@ -1,17 +1,19 @@
 from models import Event, User, Comment
 from flask import Flask, render_template, request, redirect, url_for
-from mongokit import Connection
-
+from flask.ext.mongokit import MongoKit, BSONObjectIdConverter
 import os
 
 app = Flask(__name__)
 app.debug = True
 app.config['MONGODB_HOST'] = 'localhost'
 app.config['MONGODB_PORT'] = 27017
+app.config['MONGODB_DATABASE'] = 'test'
 
-con = Connection(app.config['MONGODB_HOST'], app.config['MONGODB_PORT'])
-con.register([Event, User, Comment])
-db = con.test.infer
+db = MongoKit(app)
+db.register([Event, User, Comment])
+
+app.url_map.converters['objectid'] = BSONObjectIdConverter
+
 
 @app.context_processor
 def override_url_for():
@@ -50,11 +52,11 @@ def create_event():
     return redirect(url_for('get_event', event_id = ev._id))
 
 
-@app.route('/<event_id>')
+@app.route('/<objectid:event_id>')
 def get_event(event_id):
-    ev = db.Event.find({'_id': event_id})
-    comments = list(db.Comments.find({'event_id':ev._id}))
-    return render_template('event.html', comments = comments, event = ev)
+    ev = db.Event.get_or_404(event_id)
+    comments = list(db.Comment.find({'event_id': event_id}))
+    return 'Hello World'
 
 if __name__ == "__main__":
     app.run()
