@@ -1,4 +1,4 @@
-from INFER.models import Event, User, Comment
+from models import Event, User, Comment
 from flask import Flask, render_template, request, redirect, url_for
 from mongokit import Connection
 
@@ -31,7 +31,7 @@ def create():
     return render_template('create.html')
 
 @app.route('/new_event', methods=['POST'])
-def new_event():
+def create_event():
     title = request.form['title']
     name = request.form['name']
     email = request.form['email']
