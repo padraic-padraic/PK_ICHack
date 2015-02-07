@@ -7,4 +7,4 @@ app.config['MONGODB_PORT'] = 27017
 
 @app.route('/')
 def create():
-	return render_template('create.html')
+    return render_template('create.html')
