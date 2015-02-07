@@ -42,6 +42,8 @@ def create_event():
         user.email = email
         user.name = name
         user.save()
+    else:
+        user = user[0]
     ev.creator = user
     ev.title = title
     ev.save()
