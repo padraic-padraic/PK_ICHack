@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="intro">
+	<h1>Welcome to Infer</h1>
+	<h2>(It's Not Facebook Events, Really!)</h2>
+</div>
+<div class="add_form">
+	<h3>Create an event:</h3>
+	<p>(Anything can be changed later!)</p>
+	<form action="{{ url_for('create_event') }}" method="post">
+		<input type="text" name="title" placeholder="Your event's title">
+		<input type="text" name="name" placeholder="Your name">
+		<input type="password" name="password" placeholder="Password">
+		<input type="submit" value="Let's go!">
+	</form>
+</div>
